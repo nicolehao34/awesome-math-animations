@@ -3,19 +3,83 @@
 This project uses Manim to create educational animations that explain chess concepts using algebra and mathematics. The animations demonstrate how chess can be understood as a mathematical system with coordinate geometry, vector analysis, and game theory.
 
 ## Overview
+**This project is WIP.**
 
 The project consists of several animation scenes that cover:
 
 1. **Basic Chess Algebra** (`chess_algebra.py`)
+   - Claude Shannon, the father of information theory, estimated: Number of possible chess games ≈ 10^120 (Shannon's Number).  This is based on an average branching factor of ~35 and average game length of 80 moves (per player, so 40 full moves).
    - Coordinate system and algebraic notation
    - Piece movement vectors
    - Knight mathematics (L-shaped vectors)
    - Bishop diagonal analysis
    - Queen as combination of rook and bishop
    - Distance analysis using Euclidean geometry
+   - **Move Trees** (need to start): 
+Chess can be represented as a tree:
+
+      - Each node is a board position.
+
+      - Each edge is a legal move.
+
+      - The root is the starting position.
+
+      - Each path from root to leaf is a complete game.
+
+      - The branching factor (how many moves are available from a given position) is ≈ 35. So if you try to look ahead d moves: Total nodes≈35^d, Total nodes≈35^d
+   
+      - For d = 5, you’re already at ~52 million nodes.
+   - Combinatorial Explosion
+      - The total number of legal positions is estimated to be ~
+      - Trying to brute-force all possibilities quickly becomes infeasible — this is the combinatorial explosion.
+
+      - That's why we use:
+
+         - Pruning (cutting unpromising branches)
+
+         - Heuristics (approximations)
+
+         - Evaluation functions instead of full-tree search
+
+✅ This explains why chess engines can't search all the way to checkmate (except in very limited cases). Using combinatorisc to understand the game of chess forces us to abstract, approximate, and build smarter algorithms. Also, it helps understand why endgames are easier to solve, the tree is shallow and positions are fewer.
 
 2. **Advanced Chess Mathematics** (`advanced_chess_math.py`)
-   - Game theory analysis
+   - **Game theory analysis** (animation to be implemented)
+
+   ### 🔁 Zermelo's Theorem (1913)
+   One of the earliest results in game theory.
+
+   In any finite, two-player, perfect information game (like chess):
+   - Either White can force a win
+   - Or Black can force a win  
+   - Or both can force a draw
+
+   **Chess is determined in theory.**
+
+   *But: we don't know which of these is true because of the game's complexity.*
+
+   ### ♟️ Minimax Theorem
+   Choose moves assuming your opponent plays perfectly to minimize your gain.
+
+   **Recursive algorithm:**
+   - Your best move = the one that minimizes the opponent's maximum response
+   - Leads to a game tree search: simulate moves → opponent responses → your counter-responses, etc.
+
+   ```
+   Score(A) = max(min(Opponent's replies to A))
+   ```
+
+   ### ✂️ Alpha-Beta Pruning
+   Optimizes Minimax by not exploring branches that can't possibly influence the final decision.
+
+   - Cuts down the number of nodes explored from `O(b^d)` to `O(b^{d/2})` in the best case
+   - Significantly improves search efficiency
+
+   ### 🧠 Nash Equilibrium (related)
+   In non-zero-sum games, a Nash equilibrium is where neither player can benefit by unilaterally changing their strategy.
+
+   In zero-sum perfect information games like chess, the concept simplifies: **the optimal strategy is a best response to the opponent's best strategy.**
+
    - Probability in chess positions
    - Optimization problems
    - Graph theory representation
