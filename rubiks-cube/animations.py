@@ -45,18 +45,18 @@ class PermutationCyclesScene(Scene):
         self.play(FadeIn(cycle_title))
         
         # Example permutation
-        example = MathTex(r"(1 \, 2 \, 3)(4 \, 5)", font_size=48)
+        example = Text("(1 2 3)(4 5)", font_size=48)
         example.next_to(cycle_title, DOWN, buff=0.5)
         self.play(Write(example))
         self.wait()
         
         # Explanation of cycles
         arrows = VGroup(
-            MathTex(r"1 \rightarrow 2", font_size=32),
-            MathTex(r"2 \rightarrow 3", font_size=32),
-            MathTex(r"3 \rightarrow 1", font_size=32),
-            MathTex(r"4 \rightarrow 5", font_size=32),
-            MathTex(r"5 \rightarrow 4", font_size=32),
+            Text("1 \u2192 2", font_size=32),
+            Text("2 \u2192 3", font_size=32),
+            Text("3 \u2192 1", font_size=32),
+            Text("4 \u2192 5", font_size=32),
+            Text("5 \u2192 4", font_size=32),
         )
         arrows.arrange(DOWN, buff=0.2, aligned_edge=LEFT)
         arrows.next_to(example, DOWN, buff=0.6)
@@ -82,12 +82,12 @@ class PermutationCyclesScene(Scene):
         # Show the cycle structure
         corners_text = Text("Corners:", font_size=28, color=YELLOW)
         corners_text.shift(UP * 1.2 + LEFT * 3)
-        corners_cycle = MathTex(r"(1 \, 2 \, 6 \, 5)", font_size=36, color=YELLOW)
+        corners_cycle = Text("(1 2 6 5)", font_size=36, color=YELLOW)
         corners_cycle.next_to(corners_text, RIGHT, buff=0.3)
         
         edges_text = Text("Edges:", font_size=28, color=BLUE)
         edges_text.shift(UP * 0.2 + LEFT * 3)
-        edges_cycle = MathTex(r"(9 \, 10 \, 18 \, 13)", font_size=36, color=BLUE)
+        edges_cycle = Text("(9 10 18 13)", font_size=36, color=BLUE)
         edges_cycle.next_to(edges_text, RIGHT, buff=0.3)
         
         self.play(Write(corners_text), Write(corners_cycle))
@@ -139,7 +139,7 @@ class CommutatorScene(ThreeDScene):
         self.wait()
         
         # Show formula
-        formula = MathTex(r"[A, B] = A \, B \, A' \, B'", font_size=40)
+        formula = Text("[A, B] = A B A' B'", font_size=40)
         formula.next_to(title, DOWN, buff=0.3)
         self.add_fixed_in_frame_mobjects(formula)
         self.play(Write(formula))
@@ -209,7 +209,7 @@ class ConjugateScene(ThreeDScene):
         self.wait()
         
         # Formula
-        formula = MathTex(r"A \, B \, A'", font_size=44)
+        formula = Text("A B A'", font_size=44)
         formula.next_to(title, DOWN, buff=0.3)
         self.add_fixed_in_frame_mobjects(formula)
         self.play(Write(formula))
@@ -370,8 +370,8 @@ class GroupStructureScene(Scene):
         gen_title.shift(DOWN * 1.5)
         self.play(Write(gen_title))
         
-        generators = MathTex(
-            r"\langle R, L, U, D, F, B \rangle",
+        generators = Text(
+            "\u27e8 R, L, U, D, F, B \u27e9",
             font_size=40,
             color=YELLOW
         )

@@ -91,14 +91,18 @@ class RubiksCube(VGroup):
         # Color the exterior faces
         faces = self.get_face_colors(x, y, z)
         
-        # Manim cube faces: [front, back, left, right, top, bottom]
+        # Manim Cube generates faces in order: IN, OUT, LEFT, RIGHT, UP, DOWN
+        # Each face is positioned at that direction from the cubie center:
+        #   IN  = face at z=-side/2 (bottom),  OUT = face at z=+side/2 (top)
+        #   LEFT= face at x=-side/2,            RIGHT= face at x=+side/2
+        #   UP  = face at y=+side/2 (front, +y), DOWN= face at y=-side/2 (back, -y)
         face_indices = {
-            'F': 0,  # Front (positive y)
-            'B': 1,  # Back (negative y)
-            'L': 2,  # Left (negative x)
-            'R': 3,  # Right (positive x)
-            'U': 4,  # Up (positive z)
-            'D': 5,  # Down (negative z)
+            'F': 4,  # Front (+y direction = UP constant,   index 4)
+            'B': 5,  # Back  (-y direction = DOWN constant, index 5)
+            'L': 2,  # Left  (-x direction = LEFT constant, index 2)
+            'R': 3,  # Right (+x direction = RIGHT constant, index 3)
+            'U': 1,  # Up    (+z direction = OUT constant,  index 1)
+            'D': 0,  # Down  (-z direction = IN constant,   index 0)
         }
         
         for face_name, color in faces.items():
