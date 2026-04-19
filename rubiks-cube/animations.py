@@ -200,7 +200,7 @@ class ConjugateScene(ThreeDScene):
     """
     
     def construct(self):
-        self.set_camera_orientation(phi=70 * DEGREES, theta=-50 * DEGREES)
+        self.set_camera_orientation(phi=55 * DEGREES, theta=-50 * DEGREES)
         
         title = Text("Conjugates: Repositioning Algorithms", font_size=38)
         title.to_edge(UP)
@@ -230,31 +230,36 @@ class ConjugateScene(ThreeDScene):
         self.play(FadeIn(cube))
         self.wait()
         
-        # Example: D R D' (conjugate of R by D)
-        example = Text("Example: D R D'", font_size=32, color=YELLOW)
+        # Example: U R U' (conjugate of R by U)
+        example = Text("Example: U R U'", font_size=32, color=YELLOW)
         example.to_edge(DOWN)
         self.add_fixed_in_frame_mobjects(example)
         self.play(Write(example))
         self.wait()
-        
+
         # Execute
         steps = [
-            ('D', 1, "D: Setup move"),
+            ('U', 1, "U: Setup move"),
             ('R', 1, "R: Main algorithm"),
-            ('D', -1, "D': Undo setup"),
+            ('U', -1, "U': Undo setup"),
         ]
-        
+
+        desc_text = None
         for face, direction, desc in steps:
-            desc_text = Text(desc, font_size=28, color=GREEN)
-            desc_text.to_edge(DOWN).shift(UP * 0.8)
-            self.add_fixed_in_frame_mobjects(desc_text)
-            self.play(Write(desc_text))
-            
+            next_desc = Text(desc, font_size=28, color=GREEN)
+            next_desc.to_edge(DOWN).shift(UP * 0.8)
+            self.add_fixed_in_frame_mobjects(next_desc)
+
+            if desc_text is None:
+                self.play(FadeIn(next_desc))
+            else:
+                self.play(FadeOut(desc_text), FadeIn(next_desc))
+                self.remove_fixed_in_frame_mobjects(desc_text)
+
+            desc_text = next_desc
             self.play(cube.rotate_face(face, direction=direction, animation_time=1.5))
             self.wait(0.5)
-            
-            self.play(FadeOut(desc_text))
-        
+
         # Result
         result = Text(
             "R algorithm now affects DIFFERENT pieces!",
@@ -263,7 +268,9 @@ class ConjugateScene(ThreeDScene):
         )
         result.to_edge(DOWN)
         self.add_fixed_in_frame_mobjects(result)
-        self.play(Transform(example, result))
+        self.play(FadeOut(desc_text), FadeOut(example), FadeIn(result))
+        self.remove_fixed_in_frame_mobjects(desc_text)
+        self.remove_fixed_in_frame_mobjects(example)
         self.wait(3)
 
 
