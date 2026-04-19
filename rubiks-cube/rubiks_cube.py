@@ -149,21 +149,30 @@ class RubiksCube(VGroup):
     def get_face_cubies(self, face):
         """
         Get the 9 cubies that belong to a specific face.
-        
+
+        Uses current 3D positions rather than initial grid indices so that
+        face selection remains correct after prior rotations have physically
+        moved cubies to new locations.
+
         Args:
             face: 'U', 'D', 'F', 'B', 'R', or 'L'
         """
-        # Get coordinates based on face
-        coords_map = {
-            'U': [(x, y, 1) for x in [-1, 0, 1] for y in [-1, 0, 1]],
-            'D': [(x, y, -1) for x in [-1, 0, 1] for y in [-1, 0, 1]],
-            'R': [(1, y, z) for y in [-1, 0, 1] for z in [-1, 0, 1]],
-            'L': [(-1, y, z) for y in [-1, 0, 1] for z in [-1, 0, 1]],
-            'F': [(x, 1, z) for x in [-1, 0, 1] for z in [-1, 0, 1]],
-            'B': [(x, -1, z) for x in [-1, 0, 1] for z in [-1, 0, 1]],
+        step = self.cubie_size + self.gap
+        # Threshold is halfway between the center layer (0) and the outer
+        # layer (step), giving plenty of margin for floating-point drift.
+        t = step * 0.5
+
+        face_check = {
+            'U': lambda p: p[2] >  t,
+            'D': lambda p: p[2] < -t,
+            'R': lambda p: p[0] >  t,
+            'L': lambda p: p[0] < -t,
+            'F': lambda p: p[1] >  t,
+            'B': lambda p: p[1] < -t,
         }
-        
-        return VGroup(*[self.get_cubie_by_coords(*coord) for coord in coords_map[face]])
+
+        check = face_check[face]
+        return VGroup(*[c for c in self.cubies if check(c.get_center())])
     
     def get_cubie_by_coords(self, x, y, z):
         """Get a cubie by its grid coordinates (-1, 0, or 1)."""
