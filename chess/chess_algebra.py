@@ -2,6 +2,20 @@ from manim import *
 import numpy as np
 from chess_board import ChessBoard
 
+
+def make_board(square_size=0.4, gap=0.5):
+    board = VGroup()
+    offset = 3.5 * gap
+    for i in range(8):
+        for j in range(8):
+            color = "#F0D9B5" if (i + j) % 2 == 0 else "#B58863"
+            sq = Square(side_length=square_size, fill_color=color,
+                        fill_opacity=1, stroke_color=BLACK, stroke_width=1)
+            sq.move_to([j * gap - offset, i * gap - offset, 0])
+            board.add(sq)
+    return board
+
+
 class ChessAlgebraScene(Scene):
     """Main scene explaining chess using algebra and mathematics."""
     
@@ -99,55 +113,49 @@ class ChessAlgebraScene(Scene):
         title = Text("Piece Movement Vectors", font_size=32, color=BLUE)
         title.to_edge(UP)
         
-        # Create a simplified board
-        board = VGroup()
-        for i in range(8):
-            for j in range(8):
-                color = WHITE if (i + j) % 2 == 0 else GRAY
-                square = Square(side_length=0.5, fill_color=color, fill_opacity=0.3)
-                square.move_to([j * 0.6 - 2.1, i * 0.6 - 2.1, 0])
-                board.add(square)
-        
+        board = make_board(square_size=0.5, gap=0.6)
+
         self.play(Write(title))
         self.play(Create(board))
-        
-        # Show pawn movement vector
-        pawn_start = board[4 * 8 + 3]  # e2
-        pawn_end = board[3 * 8 + 3]    # e4
-        
+
+        # Pawn piece at e2 (row=4, col=3 in board array)
+        pawn_start_sq = board[4 * 8 + 3]
+        pawn_end_sq = board[3 * 8 + 3]
+
+        pawn_piece = Text("♙", font_size=26, color=WHITE)
+        pawn_piece.move_to(pawn_start_sq.get_center())
+
         pawn_vector = Arrow(
-            pawn_start.get_center(),
-            pawn_end.get_center(),
+            pawn_start_sq.get_center(),
+            pawn_end_sq.get_center(),
             color=YELLOW,
             buff=0.1
         )
-        
         pawn_label = Text("Pawn: (0, -1)", font_size=16, color=YELLOW)
         pawn_label.next_to(pawn_vector, RIGHT)
-        
+
+        self.play(FadeIn(pawn_piece))
         self.play(Create(pawn_vector), Write(pawn_label))
-        self.wait(1)
-        
-        # Show rook movement vectors
+        self.play(pawn_piece.animate.move_to(pawn_end_sq.get_center()))
+        self.wait(0.5)
+
+        # Show rook movement vectors (all rows, same column)
         rook_vectors = VGroup()
-        rook_labels = VGroup()
-        
         for i in range(8):
-            if i != 3:  # Not the same file
+            if i != 3:
                 start_pos = board[4 * 8 + 3].get_center()
                 end_pos = board[i * 8 + 3].get_center()
-                vector = Arrow(start_pos, end_pos, color=RED, buff=0.1)
-                rook_vectors.add(vector)
-                
-                label = Text(f"({i-4}, 0)", font_size=12, color=RED)
-                label.next_to(vector, RIGHT)
-                rook_labels.add(label)
-        
-        self.play(Create(rook_vectors), Write(rook_labels))
+                rook_vectors.add(Arrow(start_pos, end_pos, color=RED, buff=0.1))
+
+        rook_label = Text("Rook: (n, 0) for any n ≠ 0", font_size=16, color=RED)
+        rook_label.next_to(board, DOWN)
+
+        self.play(Create(rook_vectors), Write(rook_label))
         self.wait(1)
-        
-        self.play(FadeOut(board), FadeOut(pawn_vector), FadeOut(pawn_label),
-                  FadeOut(rook_vectors), FadeOut(rook_labels), FadeOut(title))
+
+        self.play(FadeOut(board), FadeOut(pawn_piece), FadeOut(pawn_vector),
+                  FadeOut(pawn_label), FadeOut(rook_vectors), FadeOut(rook_label),
+                  FadeOut(title))
     
     def knight_mathematics(self):
         """Demonstrate knight movement using L-shaped vectors."""
@@ -333,7 +341,8 @@ class ChessAlgebraScene(Scene):
                 else:
                     color = GRAY
                 
-                square = Square(side_length=0.4, fill_color=color, fill_opacity=0.6)
+                square = Square(side_length=0.4, fill_color=color,
+                                fill_opacity=1, stroke_color=BLACK, stroke_width=1)
                 square.move_to([j * 0.5 - 1.75, i * 0.5 - 1.75, 0])
                 board.add(square)
         
@@ -352,7 +361,7 @@ class ChessAlgebraScene(Scene):
         self.play(Write(labels))
         
         # Show mathematical formula
-        formula = MathTex(r"d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}", font_size=24)
+        formula = Text("d = \u221a((x\u2082 - x\u2081)\u00b2 + (y\u2082 - y\u2081)\u00b2)", font_size=24)
         formula.next_to(board, DOWN)
         self.play(Write(formula))
         self.wait(2)
@@ -466,7 +475,7 @@ class PieceMovementAnalysis(Scene):
         self.play(Create(vectors))
         
         # Show mathematical property
-        math_text = MathTex(r"|dx| + |dy| = 3", font_size=24, color=YELLOW)
+        math_text = Text("|dx| + |dy| = 3", font_size=24, color=YELLOW)
         math_text.next_to(axes, DOWN)
         self.play(Write(math_text))
         self.wait(2)
@@ -504,7 +513,7 @@ class PieceMovementAnalysis(Scene):
         self.play(Create(diagonal_vectors))
         
         # Show mathematical property
-        math_text = MathTex(r"|dx| = |dy|", font_size=24, color=WHITE)
+        math_text = Text("|dx| = |dy|", font_size=24, color=WHITE)
         math_text.next_to(axes, DOWN)
         self.play(Write(math_text))
         self.wait(2)
@@ -545,7 +554,7 @@ class PieceMovementAnalysis(Scene):
         self.play(Create(rook_vectors))
         
         # Show mathematical property
-        math_text = MathTex(r"dx = 0 \text{ or } dy = 0", font_size=24, color=WHITE)
+        math_text = Text("dx = 0  or  dy = 0", font_size=24, color=WHITE)
         math_text.next_to(axes, DOWN)
         self.play(Write(math_text))
         self.wait(2)
@@ -581,7 +590,7 @@ class PieceMovementAnalysis(Scene):
         self.play(Create(queen_vectors))
         
         # Show mathematical property
-        math_text = MathTex(r"|dx| = |dy| \text{ or } dx = 0 \text{ or } dy = 0", font_size=20, color=WHITE)
+        math_text = Text("|dx| = |dy|  or  dx = 0  or  dy = 0", font_size=20, color=WHITE)
         math_text.next_to(axes, DOWN)
         self.play(Write(math_text))
         self.wait(2)
@@ -621,7 +630,7 @@ class PieceMovementAnalysis(Scene):
         self.play(Create(king_vectors))
         
         # Show mathematical property
-        math_text = MathTex(r"|dx| \leq 1 \text{ and } |dy| \leq 1", font_size=24, color=WHITE)
+        math_text = Text("|dx| \u2264 1  and  |dy| \u2264 1", font_size=24, color=WHITE)
         math_text.next_to(axes, DOWN)
         self.play(Write(math_text))
         self.wait(2)
