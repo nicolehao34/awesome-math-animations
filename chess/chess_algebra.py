@@ -142,7 +142,7 @@ class ChessAlgebraScene(Scene):
         # Show rook movement vectors (all rows, same column)
         rook_vectors = VGroup()
         for i in range(8):
-            if i != 3:
+            if i != 4:
                 start_pos = board[4 * 8 + 3].get_center()
                 end_pos = board[i * 8 + 3].get_center()
                 rook_vectors.add(Arrow(start_pos, end_pos, color=RED, buff=0.1))
