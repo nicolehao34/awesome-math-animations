@@ -1,6 +1,12 @@
 from manim import *
 import numpy as np
 from chess_board import ChessBoard
+from chess_algebra import make_board
+
+WHITE_PIECES = set("♔♕♖♗♘♙")
+def piece_color(symbol):
+    return WHITE if symbol in WHITE_PIECES else "#1a1a1a"
+
 
 class AdvancedChessMathematics(Scene):
     """Advanced mathematical analysis of chess concepts."""
@@ -128,23 +134,16 @@ class AdvancedChessMathematics(Scene):
             Text("Variables: Piece positions", font_size=16, color=YELLOW)
         ).arrange(DOWN, aligned_edge=LEFT)
         
-        # Create a simple chess position
-        board = VGroup()
-        for i in range(8):
-            for j in range(8):
-                color = WHITE if (i + j) % 2 == 0 else GRAY
-                square = Square(side_length=0.4, fill_color=color, fill_opacity=0.3)
-                square.move_to([j * 0.5 - 1.75, i * 0.5 - 1.75, 0])
-                board.add(square)
-        
+        board = make_board()
+
         # Add pieces
         pieces = VGroup()
         piece_positions = [
             (3, 3, "♔"), (3, 4, "♕"), (4, 3, "♖"), (4, 4, "♗")
         ]
-        
+
         for row, col, piece in piece_positions:
-            piece_text = Text(piece, font_size=24, color=BLACK)
+            piece_text = Text(piece, font_size=24, color=piece_color(piece))
             piece_text.move_to([col * 0.5 - 1.75, row * 0.5 - 1.75, 0])
             pieces.add(piece_text)
         
@@ -245,26 +244,18 @@ class ChessPositionAnalysis(Scene):
         title = Text("Opening Position Analysis", font_size=32, color=BLUE)
         title.to_edge(UP)
         
-        # Create a typical opening position
-        board = VGroup()
-        for i in range(8):
-            for j in range(8):
-                color = WHITE if (i + j) % 2 == 0 else GRAY
-                square = Square(side_length=0.4, fill_color=color, fill_opacity=0.3)
-                square.move_to([j * 0.5 - 1.75, i * 0.5 - 1.75, 0])
-                board.add(square)
-        
-        # Add opening pieces
+        board = make_board()
+
         opening_pieces = {
             (6, 0): "♖", (6, 1): "♘", (6, 2): "♗", (6, 3): "♕",
             (6, 4): "♔", (6, 5): "♗", (6, 6): "♘", (6, 7): "♖",
             (7, 0): "♜", (7, 1): "♞", (7, 2): "♝", (7, 3): "♛",
             (7, 4): "♚", (7, 5): "♝", (7, 6): "♞", (7, 7): "♜"
         }
-        
+
         pieces = VGroup()
         for (row, col), piece in opening_pieces.items():
-            piece_text = Text(piece, font_size=20, color=BLACK)
+            piece_text = Text(piece, font_size=20, color=piece_color(piece))
             piece_text.move_to([col * 0.5 - 1.75, row * 0.5 - 1.75, 0])
             pieces.add(piece_text)
         
@@ -290,24 +281,16 @@ class ChessPositionAnalysis(Scene):
         title = Text("Middlegame Position Analysis", font_size=32, color=BLUE)
         title.to_edge(UP)
         
-        # Create a middlegame position
-        board = VGroup()
-        for i in range(8):
-            for j in range(8):
-                color = WHITE if (i + j) % 2 == 0 else GRAY
-                square = Square(side_length=0.4, fill_color=color, fill_opacity=0.3)
-                square.move_to([j * 0.5 - 1.75, i * 0.5 - 1.75, 0])
-                board.add(square)
-        
-        # Add middlegame pieces
+        board = make_board()
+
         middlegame_pieces = {
             (4, 3): "♕", (4, 4): "♔", (3, 2): "♗", (5, 5): "♘",
             (2, 3): "♜", (3, 4): "♚", (4, 2): "♝", (5, 3): "♞"
         }
-        
+
         pieces = VGroup()
         for (row, col), piece in middlegame_pieces.items():
-            piece_text = Text(piece, font_size=20, color=BLACK)
+            piece_text = Text(piece, font_size=20, color=piece_color(piece))
             piece_text.move_to([col * 0.5 - 1.75, row * 0.5 - 1.75, 0])
             pieces.add(piece_text)
         
@@ -333,23 +316,15 @@ class ChessPositionAnalysis(Scene):
         title = Text("Endgame Position Analysis", font_size=32, color=BLUE)
         title.to_edge(UP)
         
-        # Create an endgame position
-        board = VGroup()
-        for i in range(8):
-            for j in range(8):
-                color = WHITE if (i + j) % 2 == 0 else GRAY
-                square = Square(side_length=0.4, fill_color=color, fill_opacity=0.3)
-                square.move_to([j * 0.5 - 1.75, i * 0.5 - 1.75, 0])
-                board.add(square)
-        
-        # Add endgame pieces
+        board = make_board()
+
         endgame_pieces = {
             (4, 4): "♔", (3, 3): "♚", (5, 5): "♕"
         }
-        
+
         pieces = VGroup()
         for (row, col), piece in endgame_pieces.items():
-            piece_text = Text(piece, font_size=20, color=BLACK)
+            piece_text = Text(piece, font_size=20, color=piece_color(piece))
             piece_text.move_to([col * 0.5 - 1.75, row * 0.5 - 1.75, 0])
             pieces.add(piece_text)
         

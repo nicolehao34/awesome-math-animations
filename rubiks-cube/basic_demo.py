@@ -93,25 +93,27 @@ class SingleMoveScene(ThreeDScene):
         # Perform the R move
         self.play(cube.rotate_face('R', direction=1, animation_time=2))
         self.wait()
-        
+
         # Show it again
         explanation2 = Text("Let's see that again...", font_size=24)
         explanation2.to_edge(DOWN)
         self.add_fixed_in_frame_mobjects(explanation2)
-        self.play(Transform(explanation, explanation2))
+        self.play(FadeOut(explanation), FadeIn(explanation2))
+        self.remove_fixed_in_frame_mobjects(explanation)
         self.wait()
-        
+
         # Slower rotation
         self.play(cube.rotate_face('R', direction=1, animation_time=3))
         self.wait()
-        
+
         # Explain inverse
         explanation3 = Text("R' (R-prime) means counter-clockwise: the INVERSE", font_size=24)
         explanation3.to_edge(DOWN)
         self.add_fixed_in_frame_mobjects(explanation3)
-        self.play(Transform(explanation, explanation3))
+        self.play(FadeOut(explanation2), FadeIn(explanation3))
+        self.remove_fixed_in_frame_mobjects(explanation2)
         self.wait()
-        
+
         # Perform R' to undo
         self.play(cube.rotate_face('R', direction=-1, animation_time=2))
         self.wait(2)
