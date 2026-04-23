@@ -91,6 +91,7 @@ class PermutationCyclesScene(Scene):
         edges_cycle.next_to(edges_text, RIGHT, buff=0.3)
         
         self.play(Write(corners_text), Write(corners_cycle))
+        self.wait()
         self.play(FadeOut(corners_text), FadeOut(corners_cycle))
         self.play(Write(edges_text), Write(edges_cycle))
         self.wait()
