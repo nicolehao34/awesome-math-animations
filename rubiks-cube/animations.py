@@ -91,7 +91,8 @@ class PermutationCyclesScene(Scene):
         edges_cycle.next_to(edges_text, RIGHT, buff=0.3)
         
         self.play(Write(corners_text), Write(corners_cycle))
-        self.play(Transform(corners_text, edges_text), Transform(corners_cycle, edges_cycle))
+        self.play(FadeOut(corners_text), FadeOut(corners_cycle))
+        self.play(Write(edges_text), Write(edges_cycle))
         self.wait()
         
         # Key insight
@@ -115,8 +116,7 @@ class PermutationCyclesScene(Scene):
         order_explanation.next_to(order_text, DOWN, buff=0.2)
         
         self.play(Write(order_text))
-
-        self.play(Transform(order_text, order_explanation))
+        self.play(Write(order_explanation))
         self.wait(3)
 
 
@@ -184,6 +184,7 @@ class CommutatorScene(ThreeDScene):
         )
         result_text.to_edge(DOWN)
         self.play(FadeOut(example_text))
+        self.remove_fixed_in_frame_mobjects(example_text)
         self.add_fixed_in_frame_mobjects(result_text)
         self.play(FadeIn(result_text))
         self.wait()
