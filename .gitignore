@@ -1,2 +1,4 @@
 \venv312
 \media
+__pycache__/
+*.py[cod]
