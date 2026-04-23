@@ -1,23 +1,9 @@
 from manim import *
 import numpy as np
 from chess_board import ChessBoard
+from chess_algebra import make_board
 
 WHITE_PIECES = set("♔♕♖♗♘♙")
-
-
-def make_board(square_size=0.4, gap=0.5):
-    board = VGroup()
-    offset = 3.5 * gap
-    for i in range(8):
-        for j in range(8):
-            color = "#F0D9B5" if (i + j) % 2 == 0 else "#B58863"
-            sq = Square(side_length=square_size, fill_color=color,
-                        fill_opacity=1, stroke_color=BLACK, stroke_width=1)
-            sq.move_to([j * gap - offset, i * gap - offset, 0])
-            board.add(sq)
-    return board
-
-
 def piece_color(symbol):
     return WHITE if symbol in WHITE_PIECES else "#1a1a1a"
 
