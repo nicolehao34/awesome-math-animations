@@ -93,9 +93,6 @@ class PermutationCyclesScene(Scene):
         self.play(Write(corners_text), Write(corners_cycle))
         self.play(Transform(corners_text, edges_text), Transform(corners_cycle, edges_cycle))
         self.wait()
-
-
-        self.wait()
         
         # Key insight
         insight = Text(
@@ -187,7 +184,6 @@ class CommutatorScene(ThreeDScene):
         )
         result_text.to_edge(DOWN)
         self.play(FadeOut(example_text))
-
         self.add_fixed_in_frame_mobjects(result_text)
         self.play(FadeIn(result_text))
         self.wait()
