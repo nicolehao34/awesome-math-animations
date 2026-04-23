@@ -95,7 +95,6 @@ class PermutationCyclesScene(Scene):
         self.wait()
 
 
-        self.play(Write(edges_text), Write(edges_cycle))
         self.wait()
         
         # Key insight
@@ -121,7 +120,6 @@ class PermutationCyclesScene(Scene):
         self.play(Write(order_text))
 
         self.play(Transform(order_text, order_explanation))
-        self.play(Write(order_explanation))
         self.wait(3)
 
 
