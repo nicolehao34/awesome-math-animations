@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rubik's Cube - Three.js</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="cube-canvas"></canvas>
+    <div id="controls-panel">
+      <h2>Rubik's Cube</h2>
+      <div class="move-buttons">
+        <button data-move="R">R</button>
+        <button data-move="R'">R'</button>
+        <button data-move="L">L</button>
+        <button data-move="L'">L'</button>
+        <button data-move="U">U</button>
+        <button data-move="U'">U'</button>
+        <button data-move="D">D</button>
+        <button data-move="D'">D'</button>
+        <button data-move="F">F</button>
+        <button data-move="F'">F'</button>
+        <button data-move="B">B</button>
+        <button data-move="B'">B'</button>
+      </div>
+      <div class="action-buttons">
+        <button id="scramble-btn">Scramble</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+      <div id="move-display"></div>
+      <p class="instructions">Drag to orbit • Scroll to zoom</p>
+    </div>
+  </div>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
